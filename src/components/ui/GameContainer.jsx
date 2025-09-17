@@ -1,5 +1,5 @@
-import { cards } from "../../utils/cards";
-import Card from "../Card";
+import Card from "@components/Card";
+import { cards } from "@utils/cards";
 
 const GameContainer = () => {
 	return (

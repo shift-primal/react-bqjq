@@ -1,5 +1,5 @@
-import BetContainer from "./components/ui/BetContainer";
-import GameContainer from "./components/ui/GameContainer";
+import BetContainer from "@ui/BetContainer";
+import GameContainer from "@ui/GameContainer";
 
 function App() {
 	return (
@@ -10,6 +10,7 @@ function App() {
 			>
 				<GameContainer />
 			</div>
+
 			<div
 				id="bet-container"
 				className="flex max-w-4xl"

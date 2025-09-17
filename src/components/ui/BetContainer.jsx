@@ -1,5 +1,5 @@
-import Chip from "../Chip";
-import { chips } from "../../utils/chips";
+import Chip from "@components/Chip";
+import { chips } from "@utils/chips";
 import { useState } from "react";
 
 const BetContainer = () => {
@@ -11,6 +11,7 @@ const BetContainer = () => {
 				id="your-bet"
 				className="flex gap-6"
 			>
+				<p>Your bet</p>
 				{currentBet.length > 0 &&
 					currentBet.map((chip) => {
 						return (
@@ -25,6 +26,7 @@ const BetContainer = () => {
 				id="select-chips"
 				className="flex gap-6"
 			>
+				<p>Your chips</p>
 				{chips.map((chip) => {
 					return (
 						<Chip

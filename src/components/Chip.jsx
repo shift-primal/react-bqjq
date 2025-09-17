@@ -1,10 +1,12 @@
+import { playAudio, chipsCollide } from "@utils/audio";
+
 const Chip = ({ chip }) => {
 	return (
 		<div
 			id={chip.sprite.slice(4, chip.sprite.length - 11)}
 			className="relative"
 			onClick={() => {
-				console.log(`Clicked chip ${chip.color}`);
+				playAudio(chipsCollide);
 			}}
 		>
 			<img

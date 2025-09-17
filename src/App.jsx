@@ -1,21 +1,22 @@
-import { shuffle } from "fast-shuffle";
-import Card from "./components/Card";
-import { cards } from "./utils/cards";
+import BetContainer from "./components/ui/BetContainer";
+import GameContainer from "./components/ui/GameContainer";
 
 function App() {
 	return (
-		<>
-			<div className="grid grid-cols-9 justify-self-start gap-4">
-				{shuffle(cards).map((card) => {
-					return (
-						<Card
-							key={card.sprite}
-							card={card}
-						/>
-					);
-				})}
+		<main className="min-h-screen flex flex-col items-center justify-evenly">
+			<div
+				id="game-container"
+				className="flex max-w-7xl"
+			>
+				<GameContainer />
 			</div>
-		</>
+			<div
+				id="bet-container"
+				className="flex max-w-4xl"
+			>
+				<BetContainer />
+			</div>
+		</main>
 	);
 }
 

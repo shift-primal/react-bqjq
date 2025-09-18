@@ -1,37 +1,46 @@
-import Chip from "@components/Chip";
 import { chips } from "@utils/chips";
-import { useState } from "react";
+import { useBet } from "@contexts/BetContext";
+import Chip from "../Chip";
+import Separator from "../Separator";
 
 const BetContainer = () => {
-	const [currentBet, setCurrentBet] = useState([]);
+	const { currentBet, setCurrentBet } = useBet();
 
 	return (
-		<div className="bg-slate-800 border-4 p-8 rounded-2xl border-gray-200 flex flex-col">
+		<div className="bg-slate-800 border-4 py-6 gap-y-12 rounded-2xl border-gray-200 w-200 h-full">
 			<div
 				id="your-bet"
-				className="flex gap-6"
+				className="relative h-[68px] flex justify-center"
 			>
-				<p>Your bet</p>
 				{currentBet.length > 0 &&
-					currentBet.map((chip) => {
+					currentBet.map((chip, i) => {
 						return (
 							<Chip
-								key={chip.sprite}
+								key={chip.sprite + i}
 								chip={chip}
+								clickable={false}
+								currentBet={currentBet}
+								setCurrentBet={setCurrentBet}
+								offset={i}
 							/>
 						);
 					})}
 			</div>
+			<p className="text-white text-2xl text-center my-4">
+				{currentBet.length > 0 ? currentBet.map((chip) => chip.value).reduce((acc, cur) => acc + cur) + "$" : "0$"}
+			</p>
+			<Separator space={4} />
 			<div
 				id="select-chips"
-				className="flex gap-6"
+				className="flex gap-6 row-span-2 justify-center"
 			>
-				<p>Your chips</p>
 				{chips.map((chip) => {
 					return (
 						<Chip
 							key={chip.sprite}
 							chip={chip}
+							clickable={true}
+							setCurrentBet={setCurrentBet}
 						/>
 					);
 				})}

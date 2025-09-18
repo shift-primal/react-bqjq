@@ -5,6 +5,8 @@ const suits = {
 	hearts: { color: "red", icon: "♥" },
 };
 
+export const emptyCard = { value: 0, suit: "N/A", symbol: 0, sprite: "cardBack_blue3.png" };
+
 export const cards = [
 	// Clubs
 	{ value: 1, suit: suits.clubs, symbol: "A", sprite: "cardClubsA.png" },
@@ -17,9 +19,9 @@ export const cards = [
 	{ value: 8, suit: suits.clubs, symbol: "8", sprite: "cardClubs8.png" },
 	{ value: 9, suit: suits.clubs, symbol: "9", sprite: "cardClubs9.png" },
 	{ value: 10, suit: suits.clubs, symbol: "10", sprite: "cardClubs10.png" },
-	{ value: 11, suit: suits.clubs, symbol: "J", sprite: "cardClubsJ.png" },
-	{ value: 12, suit: suits.clubs, symbol: "Q", sprite: "cardClubsQ.png" },
-	{ value: 13, suit: suits.clubs, symbol: "K", sprite: "cardClubsK.png" },
+	{ value: 10, suit: suits.clubs, symbol: "J", sprite: "cardClubsJ.png" },
+	{ value: 10, suit: suits.clubs, symbol: "Q", sprite: "cardClubsQ.png" },
+	{ value: 10, suit: suits.clubs, symbol: "K", sprite: "cardClubsK.png" },
 
 	// Spades
 	{ value: 1, suit: suits.spades, symbol: "A", sprite: "cardSpadesA.png" },
@@ -32,9 +34,9 @@ export const cards = [
 	{ value: 8, suit: suits.spades, symbol: "8", sprite: "cardSpades8.png" },
 	{ value: 9, suit: suits.spades, symbol: "9", sprite: "cardSpades9.png" },
 	{ value: 10, suit: suits.spades, symbol: "10", sprite: "cardSpades10.png" },
-	{ value: 11, suit: suits.spades, symbol: "J", sprite: "cardSpadesJ.png" },
-	{ value: 12, suit: suits.spades, symbol: "Q", sprite: "cardSpadesQ.png" },
-	{ value: 13, suit: suits.spades, symbol: "K", sprite: "cardSpadesK.png" },
+	{ value: 10, suit: suits.spades, symbol: "J", sprite: "cardSpadesJ.png" },
+	{ value: 10, suit: suits.spades, symbol: "Q", sprite: "cardSpadesQ.png" },
+	{ value: 10, suit: suits.spades, symbol: "K", sprite: "cardSpadesK.png" },
 
 	// Diamonds
 	{ value: 1, suit: suits.diamonds, symbol: "A", sprite: "cardDiamondsA.png" },
@@ -47,9 +49,9 @@ export const cards = [
 	{ value: 8, suit: suits.diamonds, symbol: "8", sprite: "cardDiamonds8.png" },
 	{ value: 9, suit: suits.diamonds, symbol: "9", sprite: "cardDiamonds9.png" },
 	{ value: 10, suit: suits.diamonds, symbol: "10", sprite: "cardDiamonds10.png" },
-	{ value: 11, suit: suits.diamonds, symbol: "J", sprite: "cardDiamondsJ.png" },
-	{ value: 12, suit: suits.diamonds, symbol: "Q", sprite: "cardDiamondsQ.png" },
-	{ value: 13, suit: suits.diamonds, symbol: "K", sprite: "cardDiamondsK.png" },
+	{ value: 10, suit: suits.diamonds, symbol: "J", sprite: "cardDiamondsJ.png" },
+	{ value: 10, suit: suits.diamonds, symbol: "Q", sprite: "cardDiamondsQ.png" },
+	{ value: 10, suit: suits.diamonds, symbol: "K", sprite: "cardDiamondsK.png" },
 
 	// Hearts
 	{ value: 1, suit: suits.hearts, symbol: "A", sprite: "cardHeartsA.png" },
@@ -62,7 +64,7 @@ export const cards = [
 	{ value: 8, suit: suits.hearts, symbol: "8", sprite: "cardHearts8.png" },
 	{ value: 9, suit: suits.hearts, symbol: "9", sprite: "cardHearts9.png" },
 	{ value: 10, suit: suits.hearts, symbol: "10", sprite: "cardHearts10.png" },
-	{ value: 11, suit: suits.hearts, symbol: "J", sprite: "cardHeartsJ.png" },
-	{ value: 12, suit: suits.hearts, symbol: "Q", sprite: "cardHeartsQ.png" },
-	{ value: 13, suit: suits.hearts, symbol: "K", sprite: "cardHeartsK.png" },
+	{ value: 10, suit: suits.hearts, symbol: "J", sprite: "cardHeartsJ.png" },
+	{ value: 10, suit: suits.hearts, symbol: "Q", sprite: "cardHeartsQ.png" },
+	{ value: 10, suit: suits.hearts, symbol: "K", sprite: "cardHeartsK.png" },
 ];

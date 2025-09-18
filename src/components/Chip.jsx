@@ -1,12 +1,16 @@
 import { playAudio, chipsCollide } from "@utils/audio";
 
-const Chip = ({ chip }) => {
+const Chip = ({ chip, currentBet, setCurrentBet, clickable, offset }) => {
 	return (
 		<div
 			id={chip.sprite.slice(4, chip.sprite.length - 11)}
-			className="relative"
+			className={`absolute ${clickable ? "cursor-pointer relative" : ""}`}
+			style={!clickable ? { transform: `translateX(${offset * 10 + currentBet.length * -5}px)` } : {}}
 			onClick={() => {
-				playAudio(chipsCollide);
+				if (clickable) {
+					setCurrentBet((prev) => [...prev, chip]);
+					playAudio(chipsCollide);
+				}
 			}}
 		>
 			<img

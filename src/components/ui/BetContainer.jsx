@@ -1,10 +1,11 @@
 import { chips } from "@utils/chips";
-import { useBet } from "@contexts/BetContext";
+
 import Chip from "../Chip";
 import Separator from "../Separator";
+import { usePlayer } from "@contexts/PlayerContext";
 
 const BetContainer = () => {
-	const { currentBet, setCurrentBet } = useBet();
+	const { currentBet, setCurrentBet } = usePlayer();
 
 	return (
 		<div className="bg-slate-800 border-4 py-6 gap-y-12 rounded-2xl border-gray-200 w-200 h-full">
@@ -44,6 +45,9 @@ const BetContainer = () => {
 						/>
 					);
 				})}
+			</div>
+			<div>
+				<p>Your Money:</p>
 			</div>
 		</div>
 	);

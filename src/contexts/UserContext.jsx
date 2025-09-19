@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-export const BetContext = createContext();
+export const UserContext = createContext();
 
 export const BetProvider = ({ children }) => {
 	const [currentBet, setCurrentBet] = useState([]);

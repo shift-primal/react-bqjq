@@ -1,13 +1,15 @@
 import BetContainer from "@ui/BetContainer";
 import GameContainer from "@ui/GameContainer";
-import Separator from "./components/Separator";
+
+import PlayerInfo from "./components/ui/PlayerInfo";
 
 function App() {
 	return (
-		<main className="min-h-screen flex flex-col items-center justify-evenly">
+		<main className="min-h-screen flex items-center justify-evenly">
+			<div className="flex-1"></div>
 			<div
 				id="app-container"
-				className="flex flex-col gap-16 items-center justify-center"
+				className="flex flex-col gap-16 items-center justify-center flex-1"
 			>
 				<div
 					id="game-container"
@@ -21,6 +23,12 @@ function App() {
 				>
 					<BetContainer />
 				</div>
+			</div>
+			<div
+				id="player-container"
+				className="flex max-w-4xl flex-1"
+			>
+				<PlayerInfo />
 			</div>
 		</main>
 	);

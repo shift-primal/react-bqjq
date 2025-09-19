@@ -1,6 +1,8 @@
 import { playAudio, chipsCollide } from "@utils/audio";
+import { usePlayer } from "../contexts/PlayerContext";
 
 const Chip = ({ chip, currentBet, setCurrentBet, clickable, offset }) => {
+	const { player, setPlayer } = usePlayer();
 	return (
 		<div
 			id={chip.sprite.slice(4, chip.sprite.length - 11)}
@@ -9,6 +11,7 @@ const Chip = ({ chip, currentBet, setCurrentBet, clickable, offset }) => {
 			onClick={() => {
 				if (clickable) {
 					setCurrentBet((prev) => [...prev, chip]);
+					setPlayer((prev) => ({ ...prev, money: prev.money - chip.value }));
 					playAudio(chipsCollide);
 				}
 			}}

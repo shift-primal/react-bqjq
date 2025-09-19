@@ -75,6 +75,25 @@ export const GameProvider = ({ children }) => {
 			updatedDealerCards = [...updatedDealerCards, drawnCard];
 			dealerVal = getValue(updatedDealerCards);
 
+			if (dealerVal > 21) {
+				let adjusted = false;
+				updatedDealerCards.some((card, i) => {
+					if (card.symbol === "A" && card.value === 11) {
+						updatedDealerCards[i] = {
+							...card,
+							value: 1,
+						};
+						adjusted = true;
+						return true;
+					}
+					return false;
+				});
+
+				if (adjusted) {
+					dealerVal = getValue(updatedDealerCards);
+				}
+			}
+
 			setGameState((current) => ({
 				...current,
 				dealersCards: updatedDealerCards,

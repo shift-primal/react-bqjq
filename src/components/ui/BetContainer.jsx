@@ -3,9 +3,18 @@ import { chips } from "@utils/chips";
 import Chip from "../Chip";
 import Separator from "../Separator";
 import { usePlayer } from "@contexts/PlayerContext";
+import { Undo2 } from "lucide-react";
 
 const BetContainer = () => {
-	const { currentBet, setCurrentBet } = usePlayer();
+	const { setPlayer, currentBet, setCurrentBet } = usePlayer();
+
+	const resetBet = () => {
+		setPlayer((prev) => ({
+			...prev,
+			money: prev.money + currentBet.map((chip) => chip.value).reduce((acc, cur) => acc + cur),
+		}));
+		setCurrentBet([]);
+	};
 
 	return (
 		<div className="bg-slate-800 border-4 py-6 gap-y-12 rounded-2xl border-gray-200 w-200 h-full">
@@ -26,6 +35,12 @@ const BetContainer = () => {
 							/>
 						);
 					})}
+				<button
+					onClick={() => resetBet()}
+					className="absolute self-center right-10 text-white cursor-pointer"
+				>
+					<Undo2 size={28} />
+				</button>
 			</div>
 			<p className="text-white text-2xl text-center my-4">
 				{currentBet.length > 0 ? currentBet.map((chip) => chip.value).reduce((acc, cur) => acc + cur) + "$" : "0$"}
@@ -45,9 +60,6 @@ const BetContainer = () => {
 						/>
 					);
 				})}
-			</div>
-			<div>
-				<p>Your Money:</p>
 			</div>
 		</div>
 	);

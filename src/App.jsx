@@ -26,7 +26,7 @@ function App() {
 			</div>
 			<div
 				id="player-container"
-				className="flex max-w-4xl flex-1"
+				className="flex max-w-4xl flex-1 justify-center"
 			>
 				<PlayerInfo />
 			</div>

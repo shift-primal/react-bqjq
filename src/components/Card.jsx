@@ -1,5 +1,6 @@
 import { playAudio, flipCards } from "@utils/audio";
 import { useEffect, useState } from "react";
+import { emptyCard } from "../lib/utils/cards";
 
 const Card = ({ card, flippable = false, clickable = false }) => {
 	const [flipped, setFlipped] = useState(flippable ? false : true);
@@ -24,7 +25,7 @@ const Card = ({ card, flippable = false, clickable = false }) => {
 			}}
 		>
 			<img
-				src={flipped ? `/src/assets/cards/${card.sprite}` : `src/assets/cards/cardBack_blue3.png`}
+				src={flipped ? `/src/assets/cards/${card.sprite}` : `src/assets/cards/${emptyCard.sprite}`}
 				alt="card"
 				draggable={false}
 			/>

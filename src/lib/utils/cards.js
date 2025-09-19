@@ -9,7 +9,7 @@ export const emptyCard = { value: 0, suit: "N/A", symbol: 0, sprite: "cardBack_b
 
 export const cards = [
 	// Clubs
-	{ value: 1, suit: suits.clubs, symbol: "A", sprite: "cardClubsA.png" },
+	{ value: 11, suit: suits.clubs, symbol: "A", sprite: "cardClubsA.png" },
 	{ value: 2, suit: suits.clubs, symbol: "2", sprite: "cardClubs2.png" },
 	{ value: 3, suit: suits.clubs, symbol: "3", sprite: "cardClubs3.png" },
 	{ value: 4, suit: suits.clubs, symbol: "4", sprite: "cardClubs4.png" },
@@ -24,7 +24,7 @@ export const cards = [
 	{ value: 10, suit: suits.clubs, symbol: "K", sprite: "cardClubsK.png" },
 
 	// Spades
-	{ value: 1, suit: suits.spades, symbol: "A", sprite: "cardSpadesA.png" },
+	{ value: 11, suit: suits.spades, symbol: "A", sprite: "cardSpadesA.png" },
 	{ value: 2, suit: suits.spades, symbol: "2", sprite: "cardSpades2.png" },
 	{ value: 3, suit: suits.spades, symbol: "3", sprite: "cardSpades3.png" },
 	{ value: 4, suit: suits.spades, symbol: "4", sprite: "cardSpades4.png" },
@@ -39,7 +39,7 @@ export const cards = [
 	{ value: 10, suit: suits.spades, symbol: "K", sprite: "cardSpadesK.png" },
 
 	// Diamonds
-	{ value: 1, suit: suits.diamonds, symbol: "A", sprite: "cardDiamondsA.png" },
+	{ value: 11, suit: suits.diamonds, symbol: "A", sprite: "cardDiamondsA.png" },
 	{ value: 2, suit: suits.diamonds, symbol: "2", sprite: "cardDiamonds2.png" },
 	{ value: 3, suit: suits.diamonds, symbol: "3", sprite: "cardDiamonds3.png" },
 	{ value: 4, suit: suits.diamonds, symbol: "4", sprite: "cardDiamonds4.png" },
@@ -54,7 +54,7 @@ export const cards = [
 	{ value: 10, suit: suits.diamonds, symbol: "K", sprite: "cardDiamondsK.png" },
 
 	// Hearts
-	{ value: 1, suit: suits.hearts, symbol: "A", sprite: "cardHeartsA.png" },
+	{ value: 11, suit: suits.hearts, symbol: "A", sprite: "cardHeartsA.png" },
 	{ value: 2, suit: suits.hearts, symbol: "2", sprite: "cardHearts2.png" },
 	{ value: 3, suit: suits.hearts, symbol: "3", sprite: "cardHearts3.png" },
 	{ value: 4, suit: suits.hearts, symbol: "4", sprite: "cardHearts4.png" },

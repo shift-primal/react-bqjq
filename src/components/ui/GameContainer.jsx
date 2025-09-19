@@ -13,11 +13,34 @@ const GameContainer = () => {
 	// console.log("Players cards:", gameState.playersCards);
 
 	useEffect(() => {
-		if (getValue(gameState.playersCards) > 21) {
-			setGameState((currentState) => ({
-				...currentState,
-				gamePhase: "finished",
-			}));
+		const totalValue = getValue(gameState.playersCards);
+
+		if (totalValue > 21) {
+			const updatedCards = [...gameState.playersCards];
+
+			let adjusted = false;
+			updatedCards.some((card, i) => {
+				if (card.symbol === "A" && card.value === 11) {
+					updatedCards[i] = {
+						...updatedCards[i],
+						value: 1,
+					};
+					adjusted = true;
+					return true;
+				}
+			});
+
+			if (adjusted) {
+				setGameState((currentState) => ({
+					...currentState,
+					playersCards: updatedCards,
+				}));
+			} else {
+				setGameState((currentState) => ({
+					...currentState,
+					gamePhase: "finished",
+				}));
+			}
 		}
 	}, [gameState.playersCards]);
 

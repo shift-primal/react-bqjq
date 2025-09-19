@@ -1,137 +1,66 @@
 import Card from "@components/Card";
-import { cards, emptyCard } from "@utils/cards";
-import { shuffle } from "fast-shuffle";
-import { useState } from "react";
-import { playAudio, flipCards } from "@utils/audio";
+import { useEffect } from "react";
+
+import { PreGameUI, InGameUI, GameFinishedUI } from "./gameStateUis";
+import { getValue } from "../../lib/utils/logic";
+import { useGame } from "../../contexts/GameContext";
 
 const GameContainer = () => {
-	const [gameState, setGameState] = useState({
-		roundInProgress: false,
-		availableCards: shuffle([...cards]),
-		dealersCards: Array(2).fill(emptyCard),
-		playersCards: Array(2).fill(emptyCard),
-	});
+	const { gameState, setGameState } = useGame();
 
 	// console.log("Available cards:", gameState.availableCards);
 	// console.log("Dealers cards:", gameState.dealersCards);
 	// console.log("Players cards:", gameState.playersCards);
 
-	function drawCards(cardsToDraw) {
-		const drawnCards = [];
-
-		for (let i = 0; i < cardsToDraw; i++) {
-			drawnCards.push(gameState.availableCards[i]);
+	useEffect(() => {
+		if (getValue(gameState.playersCards) > 21) {
+			setGameState((currentState) => ({
+				...currentState,
+				roundInProgress: false,
+				gameFinished: true,
+				playerBusted: true,
+			}));
 		}
+	}, [gameState.playersCards]);
 
-		return { drawnCards, remainingCards: gameState.availableCards.slice(cardsToDraw) };
-	}
-
-	function startGame() {
-		const { drawnCards, remainingCards } = drawCards(4);
-		setGameState({
-			roundInProgress: true,
-			availableCards: remainingCards,
-			dealersCards: drawnCards.slice(0, Math.ceil(drawnCards.length / 2)).map((card) => card),
-			playersCards: drawnCards.slice(Math.ceil(drawnCards.length / 2)).map((card) => card),
-		});
-	}
-
-	function resetGame() {
-		setGameState({
-			roundInProgress: false,
-			availableCards: shuffle([...cards]),
-			dealersCards: Array(2).fill(emptyCard),
-			playersCards: Array(2).fill(emptyCard),
-		});
-	}
-
-	function hit() {
-		const { drawnCards, remainingCards } = drawCards(1);
-
-		setGameState({
-			...gameState,
-			playersCards: [...gameState.playersCards, ...drawnCards],
-			availableCards: remainingCards,
-		});
-
-		playAudio(flipCards);
-	}
-
-	function stand() {
-		setGameState({
-			...gameState,
-			roundInProgress: false,
-		});
-
-		playAudio(flipCards);
-	}
-
-	const dealerCardsHidden = gameState.dealersCards.map((card, i) => (
+	const dealerCards = gameState.dealersCards.map((card, i) => (
 		<Card
 			key={`dealer-${i}`}
 			card={card}
-			flippable={i > 0 ? true : false}
+			flippable={!gameState.playerStands && i > 0}
 			// Comment out later
 			clickable={true}
 		/>
 	));
-
-	const dealerCardsShown = gameState.dealersCards.map((card, i) => (
-		<Card
-			key={`dealer-${i}`}
-			card={card}
-			flippable={false}
-			// Comment out later
-			clickable={true}
-		/>
-	));
-
-	const preGameUi = (
-		<div className="flex items-center w-full justify-center">
-			<button
-				className="text-white border-2 rounded-md text-2xl px-3 py-1 bg-green-500 font-semibold tracking-wide cursor-pointer"
-				onClick={() => {
-					startGame();
-					playAudio(flipCards);
-				}}
-			>
-				START
-			</button>
-		</div>
-	);
-
-	const inGameUi = (
-		<div className="flex items-center w-full relative">
-			<div className="flex-1 flex justify-center">
-				<div
-					id="buttons"
-					className="flex gap-x-6"
-				>
-					<button
-						className="text-white border-2 rounded-md text-2xl px-3 py-1 bg-gray-500 font-semibold tracking-wide cursor-pointer"
-						onClick={() => stand()}
-					>
-						STAND
-					</button>
-					<button
-						className="text-white border-2 rounded-md text-2xl px-3 py-1 bg-green-500 font-semibold tracking-wide cursor-pointer"
-						onClick={() => hit()}
-					>
-						HIT
-					</button>
-				</div>
-			</div>
-		</div>
-	);
 
 	return (
-		<div className="bg-slate-800 border-4 py-6 gap-y-12 rounded-2xl border-gray-200 w-200  flex flex-col items-center">
-			<button
-				className="text-white border-2 rounded-md text-2xl px-3 py-1 bg-red-500 font-semibold tracking-wide cursor-pointer absolute top-10"
-				onClick={() => resetGame()}
-			>
-				RESET
-			</button>
+		<div className="bg-slate-800 border-4 py-6 gap-y-12 rounded-2xl border-gray-200 w-200  flex flex-col items-center relative">
+			{gameState.tie && (
+				<p className="text-7xl text-gray-300 absolute inset-0 place-self-center font-bold -translate-y-12 bg-black/80 p-4 rounded-xl">
+					ITS A TIE
+				</p>
+			)}
+			{gameState.playerBusted && (
+				<p className="text-7xl text-red-600 absolute inset-0 place-self-center font-bold -translate-y-12 bg-black/80 p-4 rounded-xl">
+					YOU BUST
+				</p>
+			)}
+
+			{gameState.dealerWon && (
+				<p className="text-7xl text-red-600 absolute inset-0 place-self-center font-bold -translate-y-12 bg-black/80 p-4 rounded-xl">
+					DEALER WINS
+				</p>
+			)}
+			{gameState.playerWon && (
+				<p className="text-7xl text-green-500 absolute inset-0 place-self-center font-bold -translate-y-12 bg-black/80 p-4 rounded-xl">
+					YOU WIN
+				</p>
+			)}
+			{gameState.dealerBusted && (
+				<p className="text-7xl text-green-500 absolute inset-0 place-self-center font-bold -translate-y-12 bg-black/80 p-4 rounded-xl">
+					YOU WIN
+				</p>
+			)}
 			<div className="flex flex-col justify-center items-center gap-y-4 w-full px-16">
 				<div
 					id="dealers-cards"
@@ -141,13 +70,11 @@ const GameContainer = () => {
 						id="dealer-card-elements"
 						className="flex gap-x-6 ml-[68px] mt-2"
 					>
-						{gameState.roundInProgress ? dealerCardsHidden : dealerCardsShown}
+						{dealerCards}
 					</div>
 					<p className="text-center text-lg text-white">
 						Dealers value:
-						{gameState.roundInProgress
-							? gameState.dealersCards[0].value
-							: gameState.dealersCards.map((card) => card.value).reduce((acc, cur) => acc + cur)}
+						{!gameState.playerStands ? gameState.dealersCards[0].value : getValue(gameState.dealersCards)}
 					</p>
 				</div>
 
@@ -166,12 +93,16 @@ const GameContainer = () => {
 							/>
 						))}
 					</div>
-					<p className="text-center text-lg text-white">
-						Your value: {gameState.playersCards.map((card) => card.value).reduce((acc, cur) => acc + cur)}
-					</p>
+					<p className="text-center text-lg text-white">Your value: {getValue(gameState.playersCards)}</p>
 				</div>
 			</div>
-			{!gameState.roundInProgress ? preGameUi : inGameUi}
+			{gameState.gameFinished ? (
+				<GameFinishedUI />
+			) : !gameState.gameFinished && !gameState.roundInProgress ? (
+				<PreGameUI />
+			) : (
+				<InGameUI />
+			)}
 		</div>
 	);
 };

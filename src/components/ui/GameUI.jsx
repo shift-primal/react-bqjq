@@ -1,5 +1,5 @@
 import { playAudio, flipCards } from "@utils/audio";
-import { useGame } from "../../contexts/GameContext";
+import { useGame } from "@contexts/GameContext";
 
 export const PreGameUI = () => {
 	const { startGame } = useGame();

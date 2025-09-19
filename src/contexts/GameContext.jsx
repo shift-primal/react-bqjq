@@ -8,14 +8,7 @@ export const GameContext = createContext();
 
 export const GameProvider = ({ children }) => {
 	const [gameState, setGameState] = useState({
-		roundInProgress: false,
-		playerStands: false,
-		playerBusted: false,
-		dealerBusted: false,
-		playerWon: false,
-		dealerWon: false,
-		tie: false,
-		gameFinished: false,
+		gamePhase: "ready",
 		availableCards: shuffle([...cards]),
 		dealersCards: Array(2).fill(emptyCard),
 		playersCards: Array(2).fill(emptyCard),
@@ -34,7 +27,7 @@ export const GameProvider = ({ children }) => {
 	function startGame() {
 		const { drawnCards, remainingCards } = drawCards(4);
 		setGameState({
-			roundInProgress: true,
+			gamePhase: "playing",
 			availableCards: remainingCards,
 			dealersCards: drawnCards.slice(0, Math.ceil(drawnCards.length / 2)).map((card) => card),
 			playersCards: drawnCards.slice(Math.ceil(drawnCards.length / 2)).map((card) => card),
@@ -43,7 +36,7 @@ export const GameProvider = ({ children }) => {
 
 	function resetGame() {
 		setGameState({
-			roundInProgress: false,
+			gamePhase: "ready",
 			availableCards: shuffle([...cards]),
 			dealersCards: Array(2).fill(emptyCard),
 			playersCards: Array(2).fill(emptyCard),
@@ -63,16 +56,12 @@ export const GameProvider = ({ children }) => {
 	}
 
 	async function stand() {
-		setGameState((current) => ({ ...current, playerStands: true }));
-
+		setGameState((current) => ({ ...current, gamePhase: "standing" }));
 		playAudio(flipCards);
-
 		finishGame();
 	}
 
 	async function finishGame() {
-		const playerVal = getValue(gameState.playersCards);
-
 		let updatedDealerCards = [...gameState.dealersCards];
 		let remainingCards = [...gameState.availableCards];
 		let dealerVal = getValue(updatedDealerCards);
@@ -95,16 +84,7 @@ export const GameProvider = ({ children }) => {
 			playAudio(flipCards);
 		}
 
-		// Round results
-		if (dealerVal > 21) {
-			setGameState((c) => ({ ...c, roundInProgress: false, dealerBusted: true }));
-		} else if (dealerVal > playerVal) {
-			setGameState((c) => ({ ...c, roundInProgress: false, dealerWon: true }));
-		} else if (dealerVal === playerVal) {
-			setGameState((c) => ({ ...c, roundInProgress: false, tie: true }));
-		} else {
-			setGameState((c) => ({ ...c, roundInProgress: false, playerWon: true }));
-		}
+		setGameState((c) => ({ ...c, gamePhase: "finished" }));
 	}
 
 	return (

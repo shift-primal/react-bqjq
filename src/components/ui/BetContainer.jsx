@@ -1,5 +1,5 @@
 import { chips } from "@utils/chips";
-
+import { playAudio, chipsCollide } from "@utils/audio";
 import Chip from "../Chip";
 import Separator from "../Separator";
 import { usePlayer } from "@contexts/PlayerContext";
@@ -36,7 +36,10 @@ const BetContainer = () => {
 						);
 					})}
 				<button
-					onClick={() => resetBet()}
+					onClick={() => {
+						resetBet();
+						playAudio(chipsCollide);
+					}}
 					className="absolute self-center right-10 text-white cursor-pointer"
 				>
 					<Undo2 size={28} />

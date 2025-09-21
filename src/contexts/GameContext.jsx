@@ -102,6 +102,7 @@ export const GameProvider = ({ children }) => {
 
 			playAudio(flipCards);
 		}
+		await wait(500);
 
 		setGameState((c) => ({ ...c, gamePhase: "finished" }));
 	}

@@ -11,6 +11,7 @@ export const GameProvider = ({ children }) => {
 		availableCards: shuffle([...cards]),
 		dealersCards: Array(2).fill(emptyCard),
 		playersCards: Array(2).fill(emptyCard),
+		lockedBet: [],
 	});
 
 	const [currentBet, setCurrentBet] = useState([]);
@@ -27,12 +28,16 @@ export const GameProvider = ({ children }) => {
 
 	function startGame() {
 		const { drawnCards, remainingCards } = drawCards(4);
+
 		setGameState({
 			gamePhase: "playing",
 			availableCards: remainingCards,
 			dealersCards: drawnCards.slice(0, Math.ceil(drawnCards.length / 2)).map((card) => card),
 			playersCards: drawnCards.slice(Math.ceil(drawnCards.length / 2)).map((card) => card),
+			lockedBet: [...currentBet],
 		});
+
+		setCurrentBet([]);
 	}
 
 	function resetGame() {
@@ -119,7 +124,17 @@ export const GameProvider = ({ children }) => {
 
 	return (
 		<GameContext.Provider
-			value={{ gameState, setGameState, currentBet, setCurrentBet, startGame, resetGame, hit, stand, finishGame }}
+			value={{
+				gameState,
+				setGameState,
+				currentBet,
+				setCurrentBet,
+				startGame,
+				resetGame,
+				hit,
+				stand,
+				finishGame,
+			}}
 		>
 			{children}
 		</GameContext.Provider>

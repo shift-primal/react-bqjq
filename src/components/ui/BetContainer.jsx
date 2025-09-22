@@ -5,6 +5,7 @@ import { usePlayer } from "@contexts/PlayerContext";
 import { Undo2 } from "lucide-react";
 import { useGame } from "../../contexts/GameContext";
 import { useAudio } from "../../contexts/AudioContext";
+import toast from "react-hot-toast";
 
 const BetContainer = () => {
 	const { setPlayer } = usePlayer();
@@ -40,8 +41,12 @@ const BetContainer = () => {
 					})}
 				<button
 					onClick={() => {
-						resetBet();
-						playRandomChips();
+						if (currentBet > 0) {
+							resetBet();
+							playRandomChips();
+						} else {
+							toast.error("Bet is empty!");
+						}
 					}}
 					className="absolute self-center right-10 text-white cursor-pointer"
 				>

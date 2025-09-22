@@ -1,25 +1,11 @@
 import { useGame } from "../../contexts/GameContext";
-import { getValue } from "../../lib/utils/logic";
+import { determineWinner } from "../../lib/utils/logic";
 
 const Results = () => {
 	const { gameState } = useGame();
 
-	function determineWinner() {
-		if (getValue(gameState.playersCards) > 21) {
-			return "playerBust";
-		} else if (getValue(gameState.dealersCards) > 21) {
-			return "playerWins";
-		} else if (getValue(gameState.dealersCards) > getValue(gameState.playersCards)) {
-			return "dealerWins";
-		} else if (getValue(gameState.dealersCards) === getValue(gameState.playersCards)) {
-			return "tie";
-		} else {
-			return "playerWins";
-		}
-	}
-
 	const resultClasses = () => {
-		const color = results[determineWinner()].color;
+		const color = results[determineWinner(gameState)].color;
 		return `text-7xl font-bold uppercase ${color}`;
 	};
 
@@ -35,7 +21,7 @@ const Results = () => {
 			id="results"
 			className="absolute top-52 py-4 px-8 bg-black/80 rounded-lg"
 		>
-			<p className={resultClasses()}>{results[determineWinner()].msg}</p>
+			<p className={resultClasses()}>{results[determineWinner(gameState)].msg}</p>
 		</div>
 	);
 };

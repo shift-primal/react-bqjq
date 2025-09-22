@@ -2,10 +2,12 @@ import BetContainer from "@ui/BetContainer";
 import GameContainer from "@ui/GameContainer";
 
 import PlayerInfo from "./components/ui/PlayerInfo";
+import { Toaster } from "react-hot-toast";
 
 function App() {
 	return (
 		<main className="min-h-screen flex items-center justify-evenly">
+			<Toaster position="bottom-center" />
 			<div className="flex-1"></div>
 			<div
 				id="app-container"

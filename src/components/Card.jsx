@@ -1,11 +1,13 @@
-import { playAudio, flipCards } from "@utils/audio";
 import { useEffect, useState } from "react";
 import { emptyCard } from "../lib/utils/cards";
+import { useAudio } from "../contexts/AudioContext";
 
 const Card = ({ card, flippable = false, clickable = false }) => {
 	const [flipped, setFlipped] = useState(flippable ? false : true);
 	// default: true = face showing
 	// default (if flippable): false = not showing face
+
+	const { playRandomCard } = useAudio();
 
 	useEffect(() => {
 		setFlipped(flippable ? false : true);
@@ -13,7 +15,7 @@ const Card = ({ card, flippable = false, clickable = false }) => {
 
 	function flipCard() {
 		setFlipped((prev) => !prev);
-		playAudio(flipCards);
+		playRandomCard();
 	}
 
 	return (

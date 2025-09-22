@@ -1,15 +1,18 @@
-import { playAudio, flipCards } from "@utils/audio";
 import { useGame } from "@contexts/GameContext";
+import { useAudio } from "../../contexts/AudioContext";
 
 export const PreGameUI = () => {
 	const { startGame } = useGame();
+
+	const { playRandomCard } = useAudio();
+
 	return (
 		<div className="flex items-center w-full justify-center">
 			<button
 				className="text-white border-2 rounded-md text-2xl px-3 py-1 bg-green-500 font-semibold tracking-wide cursor-pointer"
 				onClick={() => {
 					startGame();
-					playAudio(flipCards);
+					playRandomCard();
 				}}
 			>
 				START
@@ -19,7 +22,8 @@ export const PreGameUI = () => {
 };
 
 export const InGameUI = () => {
-	const { stand, hit } = useGame();
+	const { stand, hit, finishGame } = useGame();
+	const { playRandomCard } = useAudio();
 	return (
 		<div className="flex items-center w-full relative">
 			<div className="flex-1 flex justify-center">
@@ -29,13 +33,20 @@ export const InGameUI = () => {
 				>
 					<button
 						className="text-white border-2 rounded-md text-2xl px-3 py-1 bg-gray-500 font-semibold tracking-wide cursor-pointer"
-						onClick={() => stand()}
+						onClick={() => {
+							stand();
+							playRandomCard();
+							finishGame(playRandomCard);
+						}}
 					>
 						STAND
 					</button>
 					<button
 						className="text-white border-2 rounded-md text-2xl px-3 py-1 bg-green-500 font-semibold tracking-wide cursor-pointer"
-						onClick={() => hit()}
+						onClick={() => {
+							hit();
+							playRandomCard();
+						}}
 					>
 						HIT
 					</button>

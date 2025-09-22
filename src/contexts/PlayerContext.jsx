@@ -3,15 +3,12 @@ import { createContext, useContext, useState } from "react";
 export const PlayerContext = createContext();
 
 export const PlayerProvider = ({ children }) => {
-	const [currentBet, setCurrentBet] = useState([]);
 	const [player, setPlayer] = useState({
 		name: "Kasper Haugestøl",
 		money: 1000,
 	});
 
-	return (
-		<PlayerContext.Provider value={{ currentBet, setCurrentBet, player, setPlayer }}>{children}</PlayerContext.Provider>
-	);
+	return <PlayerContext.Provider value={{ player, setPlayer }}>{children}</PlayerContext.Provider>;
 };
 
 export const usePlayer = () => {

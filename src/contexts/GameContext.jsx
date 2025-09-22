@@ -1,8 +1,7 @@
 import { shuffle } from "fast-shuffle";
 import { createContext, useContext, useState } from "react";
-import { cards, emptyCard } from "../lib/utils/cards";
-import { flipCards, playAudio } from "../lib/utils/audio";
-import { getValue } from "../lib/utils/logic";
+import { cards, emptyCard } from "@utils/cards";
+import { getValue } from "@utils/logic";
 
 export const GameContext = createContext();
 
@@ -13,6 +12,8 @@ export const GameProvider = ({ children }) => {
 		dealersCards: Array(2).fill(emptyCard),
 		playersCards: Array(2).fill(emptyCard),
 	});
+
+	const [currentBet, setCurrentBet] = useState([]);
 
 	function drawCards(cardsToDraw) {
 		const drawnCards = [];
@@ -51,22 +52,47 @@ export const GameProvider = ({ children }) => {
 			playersCards: [...gameState.playersCards, ...drawnCards],
 			availableCards: remainingCards,
 		});
-
-		playAudio(flipCards);
 	}
 
 	async function stand() {
 		setGameState((current) => ({ ...current, gamePhase: "standing" }));
-		playAudio(flipCards);
-		finishGame();
 	}
 
-	async function finishGame() {
+	async function finishGame(playRandomCard) {
 		let updatedDealerCards = [...gameState.dealersCards];
 		let remainingCards = [...gameState.availableCards];
 		let dealerVal = getValue(updatedDealerCards);
 
+		function adjustAces() {
+			let adjusted = false;
+			updatedDealerCards.some((card, i) => {
+				if (card.symbol === "A" && card.value === 11) {
+					updatedDealerCards[i] = {
+						...card,
+						value: 1,
+					};
+					adjusted = true;
+					return true;
+				}
+				return false;
+			});
+
+			if (adjusted) {
+				dealerVal = getValue(updatedDealerCards);
+			}
+		}
+
 		const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+		if (dealerVal > 21) {
+			adjustAces();
+			playRandomCard();
+			setGameState((current) => ({
+				...current,
+				dealersCards: updatedDealerCards,
+				availableCards: remainingCards,
+			}));
+		}
 
 		while (dealerVal < 17) {
 			await wait(500);
@@ -76,31 +102,15 @@ export const GameProvider = ({ children }) => {
 			dealerVal = getValue(updatedDealerCards);
 
 			if (dealerVal > 21) {
-				let adjusted = false;
-				updatedDealerCards.some((card, i) => {
-					if (card.symbol === "A" && card.value === 11) {
-						updatedDealerCards[i] = {
-							...card,
-							value: 1,
-						};
-						adjusted = true;
-						return true;
-					}
-					return false;
-				});
-
-				if (adjusted) {
-					dealerVal = getValue(updatedDealerCards);
-				}
+				adjustAces();
 			}
 
+			playRandomCard();
 			setGameState((current) => ({
 				...current,
 				dealersCards: updatedDealerCards,
 				availableCards: remainingCards,
 			}));
-
-			playAudio(flipCards);
 		}
 		await wait(500);
 
@@ -108,7 +118,9 @@ export const GameProvider = ({ children }) => {
 	}
 
 	return (
-		<GameContext.Provider value={{ gameState, setGameState, startGame, resetGame, hit, stand }}>
+		<GameContext.Provider
+			value={{ gameState, setGameState, currentBet, setCurrentBet, startGame, resetGame, hit, stand, finishGame }}
+		>
 			{children}
 		</GameContext.Provider>
 	);
@@ -118,7 +130,7 @@ export const useGame = () => {
 	const context = useContext(GameContext);
 
 	if (!context) {
-		throw new Error("useGame must be used within a BetProvider");
+		throw new Error("useGame must be used within a GameProvider");
 	}
 
 	return context;

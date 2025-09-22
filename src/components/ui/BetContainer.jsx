@@ -1,12 +1,15 @@
 import { chips } from "@utils/chips";
-import { playAudio, chipsCollide } from "@utils/audio";
 import Chip from "../Chip";
 import Separator from "../Separator";
 import { usePlayer } from "@contexts/PlayerContext";
 import { Undo2 } from "lucide-react";
+import { useGame } from "../../contexts/GameContext";
+import { useAudio } from "../../contexts/AudioContext";
 
 const BetContainer = () => {
-	const { setPlayer, currentBet, setCurrentBet } = usePlayer();
+	const { setPlayer } = usePlayer();
+	const { currentBet, setCurrentBet } = useGame();
+	const { playRandomChips } = useAudio();
 
 	const resetBet = () => {
 		setPlayer((prev) => ({
@@ -38,7 +41,7 @@ const BetContainer = () => {
 				<button
 					onClick={() => {
 						resetBet();
-						playAudio(chipsCollide);
+						playRandomChips();
 					}}
 					className="absolute self-center right-10 text-white cursor-pointer"
 				>

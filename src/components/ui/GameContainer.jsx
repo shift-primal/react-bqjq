@@ -1,12 +1,15 @@
 import Card from "@components/Card";
 import { useEffect } from "react";
-import { PreGameUI, InGameUI, GameFinishedUI } from "./GameUI";
 import { getValue } from "@utils/logic";
 import { useGame } from "@contexts/GameContext";
+import { PreGameUI, InGameUI, GameFinishedUI } from "./GameUI";
 import Results from "./Results";
+import { useAudio } from "../../contexts/AudioContext";
 
 const GameContainer = () => {
 	const { gameState, setGameState } = useGame();
+
+	const { playRandomCard } = useAudio();
 
 	// console.log("Available cards:", gameState.availableCards);
 	// console.log("Dealers cards:", gameState.dealersCards);
